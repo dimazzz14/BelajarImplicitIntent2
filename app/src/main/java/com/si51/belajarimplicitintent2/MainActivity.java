@@ -1,6 +1,7 @@
 package com.si51.belajarimplicitintent2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -32,9 +33,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String link = etLink.getText().toString(); // untuk nangkep nilai edittext link di activity_main
+
                 Uri uriLink = Uri.parse(link);//parsing nilai dalem bentuk Uri-android.net (link di convert dalem bentuk uri)
                 Intent bukaWebsite = new Intent(Intent.ACTION_VIEW, uriLink);
 
+
+                // try and catch dipake buat ngatasi error. kalo misal insert link salah buat tampil pesan kesalahan bukan eror
                 try{
                     startActivity(bukaWebsite);
                 } catch (Exception e){
@@ -61,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String getTeks = etTeks.getText().toString();
+
+                String mimeType = "text/plain"; // mimeType = tipenyo
+                new ShareCompat
+                        .IntentBuilder(MainActivity.this)
+                        .setType(mimeType)
+                        .setChooserTitle("Bagikan Teks ini")
+                        .setText(getTeks)
+                        .startChooser();
             }
         });
 
